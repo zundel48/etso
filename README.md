@@ -1,6 +1,11 @@
 # Etso
 
-**Etso** is an [ETS][erlang-ets] adapter, allowing you to use `Ecto` schemas with ETS tables.
+**Etso modified** is an [ETS][erlang-ets] adapter, allowing you to use `Ecto` schemas with ETS tables.
+
+This is a modification of the orignal Etso library that will allow to use persistent ets tables. 
+For now we just do changes for the creation of new tables. 
+
+## Warning: This is not a replacement for a database that ensures persitence 
 
 Within this library, a bare-bones Ecto Adapter is provided. The Adapter transparently spins up ETS tables for each Ecto Repo and Schema combination. The tables are publicly accessible to enable concurrency, and tracked by reference to ensure encapsulation. Each ETS table is spun up by a dedicated Table Server under a shared Dynamic Supervisor.
 
