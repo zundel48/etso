@@ -2,12 +2,19 @@
 
 **Etso modified** is an [ETS][erlang-ets] adapter, allowing you to use `Ecto` schemas with ETS tables.
 
-This is a modification of the orignal Etso library that will allow to use persistent ets tables. 
-For now we just do changes for the creation of new tables. 
+This is a tiny  modification of the orignal Etso library that will allow to use persistent ets tables. 
+For now we just do changes for the creation of new tables. Maybe it would be best to include this in the 
+original 
 
 ## Warning: This is not a replacement for a database that ensures persitence 
 
-Within this library, a bare-bones Ecto Adapter is provided. The Adapter transparently spins up ETS tables for each Ecto Repo and Schema combination. The tables are publicly accessible to enable concurrency, and tracked by reference to ensure encapsulation. Each ETS table is spun up by a dedicated Table Server under a shared Dynamic Supervisor.
+PersistentEts does a regular backup of the ETS tables using the :ets.fie2tab/2 and :ets.tab2file/3 functions
+A lot of our systems nowadays are overengineered and use complex databases für persistence, even if loss of data 
+will not cause any serious problems. Our computing devices are very reliable and the chance that something happens to the data
+during the time when it is still in memory, but not yet persisted in the storage is neglectable. Even some ssd commit that data
+is persisted when it is still in their local memoy and can be lost due to power loss.
+
+Within this library, a bare-bones Ecto Adapter is provided. The Adapter transparently spins up persitent ETS tables for each Ecto Repo and Schema combination. The tables are publicly accessible to enable concurrency, and tracked by reference to ensure encapsulation. Each ETS table is spun up by a dedicated Table Server under a shared Dynamic Supervisor.
 
 For a detailed look as to what is available, check out [Northwind Repo Test][northwind-repo-test].
 
@@ -39,7 +46,6 @@ The following features are working:
 - Preloads
 
 The [Northwind Repo Test][northwind-repo-test] should give you a good idea of what’s included.
-
 ### Missing Features
 
 The following features, for example, are missing:
@@ -60,7 +66,8 @@ Using Etso is a two-step process. First, include it in your application’s depe
 ```elixir
 defp deps do
   [
-    {:etso, "~> 0.1.6"}
+    {:persistent_ets, "~> 0.1.0"}
+    {:etso, " git: "https://github.com/zundel48/etso"" branch:"persistent-ets"}
   ]
 end
 ```

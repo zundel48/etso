@@ -20,7 +20,7 @@ defmodule Etso.Adapter.TableServer do
   @impl GenServer
   def init({repo, schema}) do
     table_name = Module.concat([repo, schema])
-    table_reference = :ets.new(table_name, [:set, :public])
+    table_reference = PersistentEts.new(table_name, [:set, :public])
 
     case TableRegistry.register_table(repo, schema, table_reference) do
       :ok -> {:ok, table_reference}
